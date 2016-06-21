@@ -19,9 +19,15 @@ class TPS:
         file = open(os.path.join(os.getcwd(), 'tps', 'cmn.tps'))
         text = file.read()
         items = re.findall(re.compile(r'<filename.*?cmn/(.*?)(\.PNG|\.png)</filename>', re.S), text)
+        for item in items:
+            if not re.search(r'key', item[0]):
+                self.allTpsImgs.append(item[0] + item[1])
+        items = re.findall(re.compile(r'<key type="filename">\.\./icon/home/cmn/(.*?)(\.PNG|\.png)</key>', re.S), text)
         file.close()
         for item in items:
-            self.allTpsImgs.append(item[0] + item[1])
+            if item not in self.allTpsImgs:
+                self.allTpsImgs.append(item[0] + item[1])
+
 
 t = TPS()
 t.run()
